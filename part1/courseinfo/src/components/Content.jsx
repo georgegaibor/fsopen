@@ -1,11 +1,11 @@
 import Part from "../components/Part";
 
-const Content = ({parts, exercises}) => {
+const Content = ({parts}) => {
   return (
     <div>
       {parts.map( (part, index) => 
         {return(
-          <Part name={part} exercises={exercises[index]}/>
+          <Part key={index} name={part.name} exercises={part.exercise}/>
         )}  
       )}
     </div>

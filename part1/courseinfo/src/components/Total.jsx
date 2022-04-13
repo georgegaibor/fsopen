@@ -1,14 +1,18 @@
 
-const Total = ({exercises}) => {
+const Total = ({parts}) => {
   return (
     <div>
       <p>
-        Total: {exercises.reduce((partial, a)=>
-          partial + a, 0
-        )}
+        Total:  {
+          parts
+          .map((part)=>part.exercise)
+          .reduce((partial,a)=>
+          partial+a, 0)
+        }
       </p>
     </div>
   )
 }
 
 export default Total
+
