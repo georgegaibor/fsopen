@@ -12,7 +12,7 @@ const App = ({phoneData}) => {
   const [filterString, setFilterString] = useState('')
   
   const peopleToShow = people.filter(person => 
-    person.name.includes(filterString)
+    person.name.toLowerCase().includes(filterString.toLowerCase())
   )
 
   return (
