@@ -1,3 +1,4 @@
+import phoneService from "../../services/phoneService";
 
 const NewForm = ({people,
                   setPeople,
@@ -22,6 +23,17 @@ const NewForm = ({people,
         }
     }
 
+    const updateNumber = (id) => {
+      const person = people.find(dude => dude.id === id)
+      const upadtedPerson = {...person, number: newNumber}
+
+      phoneService
+        .update(id, upadtedPerson)
+        .then(returnedPerson => {
+          setPeople(people.map( dude => dude.id !== id ? dude : returnedPerson))
+        })
+    }
+    
     const addPerson = (event) => {
         event.preventDefault();
     
@@ -32,12 +44,20 @@ const NewForm = ({people,
         }
     
         if(people.some((person)=> isEqual(person, personObject))){
-          window.alert(`${newName} already exists`)
-          return 
+          const searchPerson = people.filter(person => isEqual(person, personObject) && person )
+          if(window.confirm(`${searchPerson[0].name} already exists. Update number?`)){
+            updateNumber(searchPerson[0].id)   
+          }
+          return
         }
-        setPeople([...people, personObject])
-        setNewName('')
-        setNumber('')
+
+        phoneService
+          .create(personObject)
+          .then(returnedPerson => {
+            setPeople([...people, returnedPerson])
+            setNewName('')
+            setNumber('')
+          })
     }
     
     const handleNameChange = (event) => {
