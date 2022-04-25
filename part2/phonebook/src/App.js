@@ -1,20 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import NewForm from './components/NewForm/NewForm';
 import Table from './components/Table/Table';
 import Filter from './components/Filter/Filter';
+import axios from 'axios';
 
 
-const App = ({phoneData}) => {
+const App = () => {
   
-  const [people, setPeople] = useState(phoneData);
+  const [people, setPeople] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNumber] = useState('');
   const [filterString, setFilterString] = useState('')
   
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/persons")
+      .then(response => {
+        setPeople(response.data)
+      })
+    
+  }, [])
+  
   const peopleToShow = people.filter(person => 
     person.name.toLowerCase().includes(filterString.toLowerCase())
   )
-
+  
   return (
     <div>
       <h2>Phonebook</h2>
