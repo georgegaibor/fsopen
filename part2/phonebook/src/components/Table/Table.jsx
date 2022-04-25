@@ -1,7 +1,7 @@
 import './table.css';
 import phoneService from '../../services/phoneService';
 
-const Table = ({displayArray, setPeople}) => {
+const Table = ({displayArray, setPeople, setMessage}) => {
   
   const handleDelete = (id) => {
     const person = displayArray.find(person => person.id === id)
@@ -10,6 +10,12 @@ const Table = ({displayArray, setPeople}) => {
       .remove(id)
       .then( () => {
         setPeople(displayArray.filter(dude => dude.id !== person.id))
+      })
+      .catch(()=>{
+        setMessage(`Info of ${person.name} already removed`)
+        setTimeout(()=>{
+          setMessage(null)
+        }, 5000)
       })
     }
   }

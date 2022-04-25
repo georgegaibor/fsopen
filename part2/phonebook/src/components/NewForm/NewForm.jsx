@@ -1,11 +1,13 @@
 import phoneService from "../../services/phoneService";
 
+
 const NewForm = ({people,
                   setPeople,
                   newName,
                   setNewName,
                   newNumber,
-                  setNumber}) => {
+                  setNumber,
+                  setMessage}) => {
 
     const isEqual = (personA, personB) => {
         const keys1 = Object.keys(personA);
@@ -55,6 +57,10 @@ const NewForm = ({people,
           .create(personObject)
           .then(returnedPerson => {
             setPeople([...people, returnedPerson])
+            setMessage(`Added ${returnedPerson.name}`)
+            setTimeout(()=>{
+              setMessage(null)
+            }, 5000)
             setNewName('')
             setNumber('')
           })

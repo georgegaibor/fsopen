@@ -4,6 +4,7 @@ import phoneService from './services/phoneService';
 import NewForm from './components/NewForm/NewForm';
 import Table from './components/Table/Table';
 import Filter from './components/Filter/Filter';
+import Notification from './components/Notification/Notification';
 
 
 const App = () => {
@@ -12,7 +13,9 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNumber] = useState('');
   const [filterString, setFilterString] = useState('')
-  
+  const [message, setMessage] = useState('')
+
+
   useEffect(() => {
     phoneService
       .getAll()
@@ -29,6 +32,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message}/>
       <Filter 
         filterString={filterString}
         setFilterString={setFilterString}
@@ -41,9 +45,10 @@ const App = () => {
         setNewName={setNewName}
         newNumber={newNumber}
         setNumber={setNumber}
+        setMessage={setMessage}
       />
       <h3>Numbers</h3>
-      <Table displayArray={peopleToShow} setPeople={setPeople}/>
+      <Table displayArray={peopleToShow} setPeople={setPeople} setMessage={setMessage}/>
     </div>
   )
 }
