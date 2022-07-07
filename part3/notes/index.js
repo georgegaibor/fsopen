@@ -80,6 +80,23 @@ app.get('/api/notes/:id', (req, res)=>{
     }
 })
 
+//UPDATE IMPORTANCE
+app.put('/api/notes/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const note = notes.find(note => note.id == id);
+    
+    const updatedNote = {
+        ...note, important: req.body.important
+    }
+
+    if(note){
+        notes = notes.map(currentNote => {
+            return currentNote.id == id ? updatedNote : currentNote
+        })
+        res.json(updatedNote);
+    }
+})
+
 //DELETE
 app.delete('/api/notes/:id', (req, res) => {
     const id = Number(req.params.id);
@@ -87,7 +104,7 @@ app.delete('/api/notes/:id', (req, res) => {
     res.status(204).end()
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, ()=>{
     console.log(`Server running on port ${PORT}`)
 })

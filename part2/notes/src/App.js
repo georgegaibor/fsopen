@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react';
 
 import Note from './components/Note';
 import Button from './components/Button';
-import noteService from './services/noteService';
 import Notification from './components/Notification';
 import Footer from './components/Footer';
+import noteService from './services/noteService';
 
 
 const App = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('');
   const [showAll, setShowAll] = useState(true);
-  const [errorMessage, setErrorMessage] = useState('Some error happened')
+  const [errorMessage, setErrorMessage] = useState(null)
 
 
   useEffect(() => {
@@ -28,6 +28,7 @@ const App = () => {
       content: newNote,
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
+      id: notes.length + 1,
     }
 
     noteService
@@ -52,9 +53,10 @@ const App = () => {
         setNotes(notes.map(note => note.id !== id ? note: returnedNote))
       })
       .catch(error => {
+        console.log(error)
         setErrorMessage(`The note '${note.content}' was already deleted`)
         setTimeout(()=>{
-          setErrorMessage(null)
+          setErrorMessage('')
         }, 5000)
         setNotes(notes.filter(note => note.id !== id))
       })
